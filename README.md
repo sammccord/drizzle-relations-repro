@@ -45,3 +45,260 @@ TypeError: undefined is not an object (evaluating 'subRows.map')
       at execute (/Users/sammccord/work/test/node_modules/drizzle-orm/sqlite-core/query-builders/query.js:133:19)
       at then (/Users/sammccord/work/test/node_modules/drizzle-orm/query-promise.js:21:12)
 ```
+
+It looks like the row is coming back as a Record<string, string> and not a Record<number, ?> so `const rawSubRows = row[selectionItemIndex]` will always be undefined.
+
+```sh
+❯ bun run ./src/test:bun.ts
+row {
+  id: "0.944135394960811",
+  credentials: "[[\"0.23310756733786797\",\"0.944135394960811\"]]",
+}
+selectionItem {
+  dbKey: "credentials",
+  tsKey: "credentials",
+  field: Aliased {
+    isSelectionField: false,
+    sql: SQL {
+      decoder: {
+        mapFromDriverValue: [Function: mapFromDriverValue],
+      },
+      shouldInlineParams: false,
+      queryChunks: [
+        StringChunk {
+          value: [ "(" ],
+          getSQL: [Function: getSQL],
+        }, SQL {
+          decoder: {
+            mapFromDriverValue: [Function: mapFromDriverValue],
+          },
+          shouldInlineParams: false,
+          queryChunks: [
+            StringChunk {
+              value: [ "" ],
+              getSQL: [Function: getSQL],
+            }, undefined, StringChunk {
+              value: [ "select" ],
+              getSQL: [Function: getSQL],
+            }, undefined, StringChunk {
+              value: [ " " ],
+              getSQL: [Function: getSQL],
+            }, SQL {
+              decoder: {
+                mapFromDriverValue: [Function: mapFromDriverValue],
+              },
+              shouldInlineParams: false,
+              queryChunks: [
+                SQL {
+                  decoder: [Object ...],
+                  shouldInlineParams: false,
+                  queryChunks: [
+                    [Object ...], [Object ...], [Object ...]
+                  ],
+                  append: [Function: append],
+                  toQuery: [Function: toQuery],
+                  buildQueryFromSourceParams: [Function: buildQueryFromSourceParams],
+                  mapInlineParam: [Function: mapInlineParam],
+                  getSQL: [Function: getSQL],
+                  as: [Function: as],
+                  mapWith: [Function: mapWith],
+                  inlineParams: [Function: inlineParams],
+                }, SQL {
+                  decoder: [Object ...],
+                  shouldInlineParams: false,
+                  queryChunks: [
+                    [Object ...], [Object ...], [Object ...]
+                  ],
+                  append: [Function: append],
+                  toQuery: [Function: toQuery],
+                  buildQueryFromSourceParams: [Function: buildQueryFromSourceParams],
+                  mapInlineParam: [Function: mapInlineParam],
+                  getSQL: [Function: getSQL],
+                  as: [Function: as],
+                  mapWith: [Function: mapWith],
+                  inlineParams: [Function: inlineParams],
+                }
+              ],
+              append: [Function: append],
+              toQuery: [Function: toQuery],
+              buildQueryFromSourceParams: [Function: buildQueryFromSourceParams],
+              mapInlineParam: [Function: mapInlineParam],
+              getSQL: [Function: getSQL],
+              as: [Function: as],
+              mapWith: [Function: mapWith],
+              inlineParams: [Function: inlineParams],
+            }, StringChunk {
+              value: [ " from " ],
+              getSQL: [Function: getSQL],
+            }, SQL {
+              decoder: {
+                mapFromDriverValue: [Function: mapFromDriverValue],
+              },
+              shouldInlineParams: false,
+              queryChunks: [
+                StringChunk {
+                  value: [ "" ],
+                  getSQL: [Function: getSQL],
+                }, Name {
+                  brand: undefined,
+                  value: "Credential",
+                  getSQL: [Function: getSQL],
+                }, StringChunk {
+                  value: [ " " ],
+                  getSQL: [Function: getSQL],
+                }, Name {
+                  brand: undefined,
+                  value: "users_credentials",
+                  getSQL: [Function: getSQL],
+                }, StringChunk {
+                  value: [ "" ],
+                  getSQL: [Function: getSQL],
+                }
+              ],
+              append: [Function: append],
+              toQuery: [Function: toQuery],
+              buildQueryFromSourceParams: [Function: buildQueryFromSourceParams],
+              mapInlineParam: [Function: mapInlineParam],
+              getSQL: [Function: getSQL],
+              as: [Function: as],
+              mapWith: [Function: mapWith],
+              inlineParams: [Function: inlineParams],
+            }, StringChunk {
+              value: [ "" ],
+              getSQL: [Function: getSQL],
+            }, SQL {
+              decoder: {
+                mapFromDriverValue: [Function: mapFromDriverValue],
+              },
+              shouldInlineParams: false,
+              queryChunks: [],
+              append: [Function: append],
+              toQuery: [Function: toQuery],
+              buildQueryFromSourceParams: [Function: buildQueryFromSourceParams],
+              mapInlineParam: [Function: mapInlineParam],
+              getSQL: [Function: getSQL],
+              as: [Function: as],
+              mapWith: [Function: mapWith],
+              inlineParams: [Function: inlineParams],
+            }, StringChunk {
+              value: [ "" ],
+              getSQL: [Function: getSQL],
+            }, SQL {
+              decoder: {
+                mapFromDriverValue: [Function: mapFromDriverValue],
+              },
+              shouldInlineParams: false,
+              queryChunks: [
+                StringChunk {
+                  value: [ " where " ],
+                  getSQL: [Function: getSQL],
+                }, SQL {
+                  decoder: [Object ...],
+                  shouldInlineParams: false,
+                  queryChunks: [
+                    [Object ...]
+                  ],
+                  append: [Function: append],
+                  toQuery: [Function: toQuery],
+                  buildQueryFromSourceParams: [Function: buildQueryFromSourceParams],
+                  mapInlineParam: [Function: mapInlineParam],
+                  getSQL: [Function: getSQL],
+                  as: [Function: as],
+                  mapWith: [Function: mapWith],
+                  inlineParams: [Function: inlineParams],
+                }, StringChunk {
+                  value: [ "" ],
+                  getSQL: [Function: getSQL],
+                }
+              ],
+              append: [Function: append],
+              toQuery: [Function: toQuery],
+              buildQueryFromSourceParams: [Function: buildQueryFromSourceParams],
+              mapInlineParam: [Function: mapInlineParam],
+              getSQL: [Function: getSQL],
+              as: [Function: as],
+              mapWith: [Function: mapWith],
+              inlineParams: [Function: inlineParams],
+            }, StringChunk {
+              value: [ "" ],
+              getSQL: [Function: getSQL],
+            }, undefined, StringChunk {
+              value: [ "" ],
+              getSQL: [Function: getSQL],
+            }, undefined, StringChunk {
+              value: [ "" ],
+              getSQL: [Function: getSQL],
+            }, undefined, StringChunk {
+              value: [ "" ],
+              getSQL: [Function: getSQL],
+            }, undefined, StringChunk {
+              value: [ "" ],
+              getSQL: [Function: getSQL],
+            }, undefined, StringChunk {
+              value: [ "" ],
+              getSQL: [Function: getSQL],
+            }
+          ],
+          append: [Function: append],
+          toQuery: [Function: toQuery],
+          buildQueryFromSourceParams: [Function: buildQueryFromSourceParams],
+          mapInlineParam: [Function: mapInlineParam],
+          getSQL: [Function: getSQL],
+          as: [Function: as],
+          mapWith: [Function: mapWith],
+          inlineParams: [Function: inlineParams],
+        }, StringChunk {
+          value: [ ")" ],
+          getSQL: [Function: getSQL],
+        }
+      ],
+      append: [Function: append],
+      toQuery: [Function: toQuery],
+      buildQueryFromSourceParams: [Function: buildQueryFromSourceParams],
+      mapInlineParam: [Function: mapInlineParam],
+      getSQL: [Function: getSQL],
+      as: [Function: as],
+      mapWith: [Function: mapWith],
+      inlineParams: [Function: inlineParams],
+    },
+    fieldAlias: "credentials",
+    getSQL: [Function: getSQL],
+    clone: [Function: clone],
+  },
+  relationTableTsKey: "credentials",
+  isJson: true,
+  selection: [
+    {
+      dbKey: "id",
+      tsKey: "id",
+      field: ,
+      relationTableTsKey: undefined,
+      isJson: false,
+      selection: [],
+    }, {
+      dbKey: "userId",
+      tsKey: "userId",
+      field: ,
+      relationTableTsKey: undefined,
+      isJson: false,
+      selection: [],
+    }
+  ],
+}
+selectionItemIndex 1
+rawSubRows undefined
+275 |         tablesConfig,
+276 |         tablesConfig[selectionItem.relationTableTsKey],
+277 |         subRows,
+278 |         selectionItem.selection,
+279 |         mapColumnValue
+280 |       ) : subRows.map(
+                ^
+TypeError: undefined is not an object (evaluating 'subRows.map')
+      at mapRelationalRow (/Users/sammccord/work/drizzle-relations-repro/node_modules/drizzle-orm/relations.js:280:11)
+      at map (:1:21)
+      at /Users/sammccord/work/drizzle-relations-repro/node_modules/drizzle-orm/sqlite-core/query-builders/query.js:100:22
+      at execute (/Users/sammccord/work/drizzle-relations-repro/node_modules/drizzle-orm/sqlite-core/query-builders/query.js:133:19)
+      at then (/Users/sammccord/work/drizzle-relations-repro/node_modules/drizzle-orm/query-promise.js:21:12)
+
+```
