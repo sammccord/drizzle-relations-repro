@@ -12,7 +12,7 @@ verify tables have migrated, should see `User` and `Credential` table
 
 run test script, should insert a user, credential, then find the user it inserted with their credentials
 
-`npx tsm ./test:sqlite.ts`
+`npx tsm ./src/test:sqlite.ts`
 
 should run successfully and see
 
@@ -27,7 +27,7 @@ should run successfully and see
 }
 ```
 
-`bun run ./test:bun.ts`
+`bun run ./src/test:bun.ts`
 
 ```sh
 sammccord  ~/work/test   v18.17.0  ♥ 16:04  bun run src/test:bun.ts
