@@ -1,3 +1,24 @@
+This repo reproduces the following issue in `drizzle-orm` that occurs when querying with relations using bun and sqlite.
+
+```sh
+sammccord  …/test   main    v18.17.0  ♥ 16:17  bun run ./src/test:bun.ts
+271 |         tablesConfig,
+272 |         tablesConfig[selectionItem.relationTableTsKey],
+273 |         subRows,
+274 |         selectionItem.selection,
+275 |         mapColumnValue
+276 |       ) : subRows.map(
+                ^
+TypeError: undefined is not an object (evaluating 'subRows.map')
+      at mapRelationalRow (/Users/sammccord/work/test/node_modules/drizzle-orm/relations.js:276:11)
+      at map (:1:21)
+      at /Users/sammccord/work/test/node_modules/drizzle-orm/sqlite-core/query-builders/query.js:100:22
+      at execute (/Users/sammccord/work/test/node_modules/drizzle-orm/sqlite-core/query-builders/query.js:133:19)
+      at then (/Users/sammccord/work/test/node_modules/drizzle-orm/query-promise.js:21:12)
+```
+
+## Steps
+
 `curl -fsSL https://bun.sh/install | bash`
 
 `bun install`
@@ -46,6 +67,8 @@ TypeError: undefined is not an object (evaluating 'subRows.map')
       at then (/Users/sammccord/work/test/node_modules/drizzle-orm/query-promise.js:21:12)
 ```
 
+## Some more context?
+
 It looks like the row is coming back as a Record<string, string> and not a Record<number, ?> so `const rawSubRows = row[selectionItemIndex]` will always be undefined.
 
 ```sh
@@ -54,6 +77,7 @@ row {
   id: "0.944135394960811",
   credentials: "[[\"0.23310756733786797\",\"0.944135394960811\"]]",
 }
+selectionItemIndex 1
 selectionItem {
   dbKey: "credentials",
   tsKey: "credentials",
@@ -285,7 +309,6 @@ selectionItem {
     }
   ],
 }
-selectionItemIndex 1
 rawSubRows undefined
 275 |         tablesConfig,
 276 |         tablesConfig[selectionItem.relationTableTsKey],
